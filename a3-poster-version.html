@@ -13,37 +13,36 @@
     <style>
         @page {
             size: A3;
-            margin: 10mm;
+            margin: 5mm;
         }
         
         @media print {
             body { 
-                font-size: 10px !important;
-                line-height: 1.2 !important;
+                font-size: 9px !important;
+                line-height: 1.1 !important;
                 -webkit-print-color-adjust: exact;
                 color-adjust: exact;
             }
-            .no-print { display: none !important; }
-            .chart-container { height: 120px !important; }
-            .kpi-item { padding: 0.5rem !important; }
+            .chart-container { height: 100px !important; }
+            .kpi-item { padding: 0.25rem !important; }
             .flow-step, .flow-step-improved, .flow-step-bottleneck { 
-                padding: 0.5rem !important; 
-                min-height: 60px !important;
+                padding: 0.25rem !important; 
+                min-height: 40px !important;
             }
-            .process-icon { font-size: 1.2rem !important; margin-bottom: 0.25rem !important; }
+            .process-icon { font-size: 1rem !important; margin-bottom: 0.1rem !important; }
         }
         
         body {
             font-family: 'Inter', sans-serif;
             background: white;
-            line-height: 1.3;
-            font-size: 11px;
+            line-height: 1.2;
+            font-size: 10px;
         }
         
         .chart-container {
             position: relative;
             width: 100%;
-            height: 140px;
+            height: 110px;
         }
         
         .hero-gradient {
@@ -51,13 +50,13 @@
         }
         
         .flow-step, .flow-step-improved, .flow-step-bottleneck {
-            border: 2px solid #0077B6;
+            border: 1px solid #0077B6;
             background: white;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
+            padding: 0.4rem;
+            border-radius: 0.25rem;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            min-height: 70px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            min-height: 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -75,42 +74,42 @@
         }
         
         .flow-arrow {
-            height: 1.5rem;
+            height: 0.75rem;
             width: 2px;
             background: #0077B6;
-            margin: 0.5rem auto;
+            margin: 0.25rem auto;
             position: relative;
         }
         
         .flow-arrow::after {
             content: '';
             position: absolute;
-            left: -4px;
+            left: -3px;
             bottom: -1px;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-top: 8px solid #0077B6;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 6px solid #0077B6;
         }
         
         .metric-card {
             background: white;
             border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         
         .kpi-item {
             text-align: center;
-            padding: 0.75rem;
+            padding: 0.4rem;
             background: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
         }
         
         .kpi-value {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 900;
             color: #0077B6;
             display: block;
@@ -118,49 +117,70 @@
         }
         
         .kpi-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #64748b;
-            margin-top: 0.25rem;
+            margin-top: 0.1rem;
         }
         
         .stat-highlight {
             background: #0077B6;
             color: white;
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.25rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.2rem;
             font-weight: 600;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
         }
         
         .process-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
         }
         
         .text-deep-navy { color: #1e293b; }
         
-        /* Compact spacing */
-        .compact-section { margin-bottom: 1.5rem; }
-        .compact-grid { gap: 0.75rem; }
-        .compact-text { font-size: 0.8rem; line-height: 1.2; }
-        .compact-title { font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .compact-subtitle { font-size: 1rem; margin-bottom: 0.75rem; }
+        /* Ultra-compact spacing */
+        .compact-section { margin-bottom: 0.75rem; }
+        .compact-grid { gap: 0.5rem; }
+        .compact-text { font-size: 0.75rem; line-height: 1.1; }
+        .compact-title { font-size: 1rem; margin-bottom: 0.25rem; font-weight: 700; }
+        .compact-subtitle { font-size: 0.85rem; margin-bottom: 0.4rem; font-weight: 600; }
+        
+        /* Eliminate all unnecessary spacing */
+        * { margin: 0; padding: 0; }
+        .space-y-1 > * + * { margin-top: 0.25rem; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .space-y-3 > * + * { margin-top: 0.75rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .p-1 { padding: 0.25rem; }
+        .p-2 { padding: 0.5rem; }
+        .px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        
+        /* Tighter table */
+        table { border-collapse: collapse; }
+        td, th { padding: 0.2rem 0.3rem !important; }
     </style>
 </head>
-<body class="text-deep-navy p-2">
+<body class="text-deep-navy p-1">
     <div class="max-w-none">
-        <!-- Compact Header -->
-        <header class="text-center mb-3">
-            <div class="hero-gradient text-white py-3 px-4 rounded-lg mb-2">
-                <h1 class="text-2xl font-black mb-1">5àsec Indonesia: Engineering Excellence</h1>
-                <p class="text-sm opacity-90">Quality improvement analysis through digital innovation and workflow optimization</p>
+        <!-- Ultra-Compact Header -->
+        <header class="text-center mb-1">
+            <div class="hero-gradient text-white py-2 px-3 rounded mb-1">
+                <h1 class="text-lg font-black mb-1">5àsec Indonesia: Engineering Excellence</h1>
+                <p class="text-xs opacity-90">Quality improvement through digital innovation</p>
             </div>
             
-            <!-- Compact KPIs -->
-            <div class="grid grid-cols-4 gap-2 mb-2">
+            <!-- Inline KPIs -->
+            <div class="grid grid-cols-4 gap-1 mb-1">
                 <div class="kpi-item">
                     <span class="kpi-value">4.7</span>
-                    <div class="kpi-label">Avg Satisfaction</div>
+                    <div class="kpi-label">Satisfaction</div>
                 </div>
                 <div class="kpi-item">
                     <span class="kpi-value">25min</span>
@@ -168,62 +188,60 @@
                 </div>
                 <div class="kpi-item">
                     <span class="kpi-value">15%</span>
-                    <div class="kpi-label">Efficiency Gain</div>
+                    <div class="kpi-label">Efficiency</div>
                 </div>
                 <div class="kpi-item">
                     <span class="kpi-value">98%</span>
-                    <div class="kpi-label">Quality Rate</div>
+                    <div class="kpi-label">Quality</div>
                 </div>
             </div>
         </header>
 
-        <!-- Main Content Grid -->
-        <div class="grid grid-cols-3 gap-3">
+        <!-- Dense 4-Column Grid -->
+        <div class="grid grid-cols-4 gap-1">
             
-            <!-- Left Column -->
-            <div class="space-y-3">
-                <!-- Current Process -->
+            <!-- Column 1: Current Process & Performance -->
+            <div class="space-y-1">
                 <section class="compact-section">
-                    <h2 class="compact-title font-bold text-center">Current Process</h2>
+                    <h2 class="compact-title text-center">Current Process</h2>
                     <div class="flex flex-col items-center space-y-1">
-                        <div class="flow-step-bottleneck w-full text-xs">
+                        <div class="flow-step-bottleneck w-full compact-text">
                             <div class="process-icon">🔬</div>
                             <div class="font-semibold">Diagnosis</div>
                         </div>
                         <div class="flow-arrow"></div>
-                        <div class="flow-step w-full text-xs">
+                        <div class="flow-step w-full compact-text">
                             <div class="process-icon">🧪</div>
                             <div class="font-semibold">Stain Removal</div>
                         </div>
                         <div class="flow-arrow"></div>
-                        <div class="flow-step w-full text-xs">
+                        <div class="flow-step w-full compact-text">
                             <div class="process-icon">🧼</div>
                             <div class="font-semibold">Cleaning</div>
                         </div>
                         <div class="flow-arrow"></div>
-                        <div class="flow-step w-full text-xs">
+                        <div class="flow-step w-full compact-text">
                             <div class="process-icon">👔</div>
                             <div class="font-semibold">Finishing</div>
                         </div>
                         <div class="flow-arrow"></div>
-                        <div class="flow-step-bottleneck w-full text-xs">
+                        <div class="flow-step-bottleneck w-full compact-text">
                             <div class="process-icon">✅</div>
                             <div class="font-semibold">Quality Control</div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Performance Charts -->
                 <section class="compact-section">
-                    <h3 class="compact-subtitle font-bold text-center">Performance Analysis</h3>
-                    <div class="metric-card mb-2">
-                        <h4 class="text-xs font-semibold text-center mb-1">Customer Satisfaction</h4>
+                    <h3 class="compact-subtitle text-center">Performance</h3>
+                    <div class="metric-card mb-1">
+                        <h4 class="compact-text font-semibold text-center">Satisfaction</h4>
                         <div class="chart-container">
                             <canvas id="satisfactionChart"></canvas>
                         </div>
                     </div>
                     <div class="metric-card">
-                        <h4 class="text-xs font-semibold text-center mb-1">Service Turnaround</h4>
+                        <h4 class="compact-text font-semibold text-center">Turnaround</h4>
                         <div class="chart-container">
                             <canvas id="turnaroundChart"></canvas>
                         </div>
@@ -231,176 +249,196 @@
                 </section>
             </div>
 
-            <!-- Middle Column -->
-            <div class="space-y-3">
-                <!-- Process Map Table -->
+            <!-- Column 2: Process Map Table -->
+            <div class="space-y-1">
                 <section class="compact-section">
-                    <h2 class="compact-title font-bold text-center">Process Map Components</h2>
+                    <h2 class="compact-title text-center">Process Map</h2>
                     <div class="bg-white rounded border overflow-hidden">
-                        <table class="w-full text-xs">
+                        <table class="w-full compact-text">
                             <thead class="bg-gray-100">
                                 <tr>
-                                    <th class="px-2 py-1 text-left font-semibold">Steps</th>
-                                    <th class="px-2 py-1 text-left font-semibold">Inputs</th>
-                                    <th class="px-2 py-1 text-left font-semibold">Outputs</th>
-                                    <th class="px-2 py-1 text-left font-semibold">Feedback</th>
+                                    <th class="text-left font-semibold">Steps</th>
+                                    <th class="text-left font-semibold">Inputs</th>
+                                    <th class="text-left font-semibold">Outputs</th>
+                                    <th class="text-left font-semibold">Feedback</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y">
                                 <tr>
-                                    <td class="px-2 py-1">🔬 Diagnosis</td>
-                                    <td class="px-2 py-1">• Dirty clothes<br>• Expert staff<br>• Equipment</td>
-                                    <td class="px-2 py-1">• Treatment plan<br>• Time estimate<br>• Instructions</td>
-                                    <td class="px-2 py-1">• Customer approval<br>• Performance tracking</td>
+                                    <td>🔬 Diagnosis</td>
+                                    <td>• Dirty clothes<br>• Expert staff<br>• Equipment</td>
+                                    <td>• Treatment plan<br>• Time estimate<br>• Instructions</td>
+                                    <td>• Customer approval<br>• Performance tracking</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-2 py-1">🧪 Stain Removal</td>
-                                    <td class="px-2 py-1">• Diagnosed items<br>• Chemicals<br>• Technicians</td>
-                                    <td class="px-2 py-1">• Pre-treated items<br>• Documentation<br>• Quality check</td>
-                                    <td class="px-2 py-1">• Success monitoring<br>• Skill assessment</td>
+                                    <td>🧪 Stain Removal</td>
+                                    <td>• Diagnosed items<br>• Chemicals<br>• Technicians</td>
+                                    <td>• Pre-treated items<br>• Documentation<br>• Quality check</td>
+                                    <td>• Success monitoring<br>• Skill assessment</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-2 py-1">🧼 Cleaning</td>
-                                    <td class="px-2 py-1">• Pre-treated items<br>• Machines<br>• Detergents</td>
-                                    <td class="px-2 py-1">• Clean garments<br>• Cycle reports<br>• Quality results</td>
-                                    <td class="px-2 py-1">• Effectiveness monitoring<br>• Machine maintenance</td>
+                                    <td>🧼 Cleaning</td>
+                                    <td>• Pre-treated items<br>• Machines<br>• Detergents</td>
+                                    <td>• Clean garments<br>• Cycle reports<br>• Quality results</td>
+                                    <td>• Effectiveness monitoring<br>• Machine maintenance</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-2 py-1">👔 Finishing</td>
-                                    <td class="px-2 py-1">• Clean garments<br>• Press equipment<br>• Skilled staff</td>
-                                    <td class="px-2 py-1">• Finished items<br>• Packaging<br>• Quality reports</td>
-                                    <td class="px-2 py-1">• Quality assessment<br>• Staff evaluation</td>
+                                    <td>👔 Finishing</td>
+                                    <td>• Clean garments<br>• Press equipment<br>• Skilled staff</td>
+                                    <td>• Finished items<br>• Packaging<br>• Quality reports</td>
+                                    <td>• Quality assessment<br>• Staff evaluation</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-2 py-1">✅ Quality Control</td>
-                                    <td class="px-2 py-1">• Finished items<br>• QC checklist<br>• Inspector</td>
-                                    <td class="px-2 py-1">• Approved garments<br>• Receipt<br>• Survey</td>
-                                    <td class="px-2 py-1">• Customer complaints<br>• Quality metrics</td>
+                                    <td>✅ Quality Control</td>
+                                    <td>• Finished items<br>• QC checklist<br>• Inspector</td>
+                                    <td>• Approved garments<br>• Receipt<br>• Survey</td>
+                                    <td>• Customer complaints<br>• Quality metrics</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </section>
 
-                <!-- Bottleneck Analysis -->
                 <section class="compact-section">
-                    <h3 class="compact-subtitle font-bold text-center">Process Bottlenecks</h3>
+                    <h3 class="compact-subtitle text-center">Bottlenecks</h3>
                     <div class="metric-card">
                         <div class="chart-container">
                             <canvas id="delayChart"></canvas>
                         </div>
-                        <div class="grid grid-cols-3 gap-2 mt-2 text-center text-xs">
-                            <div><span class="stat-highlight">50min</span><br>Daily Time Lost</div>
-                            <div><span class="stat-highlight">3</span><br>Bottleneck Areas</div>
-                            <div><span class="stat-highlight">80%</span><br>Admin vs Care</div>
+                        <div class="grid grid-cols-3 gap-1 mt-1 text-center compact-text">
+                            <div><span class="stat-highlight">50min</span><br>Daily Lost</div>
+                            <div><span class="stat-highlight">3</span><br>Areas</div>
+                            <div><span class="stat-highlight">80%</span><br>Admin</div>
                         </div>
                     </div>
                 </section>
             </div>
 
-            <!-- Right Column -->
-            <div class="space-y-3">
-                <!-- Improved Process -->
+            <!-- Column 3: Improved Process & Solutions -->
+            <div class="space-y-1">
                 <section class="compact-section">
-                    <h2 class="compact-title font-bold text-center">Improved Process</h2>
+                    <h2 class="compact-title text-center">Improved Process</h2>
                     <div class="flex flex-col items-center space-y-1">
-                        <div class="flow-step-improved w-full text-xs">
+                        <div class="flow-step-improved w-full compact-text">
                             <div class="process-icon">📱</div>
                             <div class="font-semibold">Digital Diagnosis</div>
                         </div>
                         <div class="flow-arrow"></div>
-                        <div class="flow-step w-full text-xs">
+                        <div class="flow-step w-full compact-text">
                             <div class="process-icon">🧪</div>
                             <div class="font-semibold">Stain Removal</div>
                         </div>
                         <div class="flow-arrow"></div>
-                        <div class="flow-step w-full text-xs">
+                        <div class="flow-step w-full compact-text">
                             <div class="process-icon">🧼</div>
                             <div class="font-semibold">Cleaning</div>
                         </div>
                         <div class="flow-arrow"></div>
-                        <div class="flow-step w-full text-xs">
+                        <div class="flow-step w-full compact-text">
                             <div class="process-icon">👔</div>
                             <div class="font-semibold">Finishing</div>
                         </div>
                         <div class="flow-arrow"></div>
-                        <div class="flow-step-improved w-full text-xs">
+                        <div class="flow-step-improved w-full compact-text">
                             <div class="process-icon">✅</div>
                             <div class="font-semibold">Smart QC</div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Solutions -->
                 <section class="compact-section">
-                    <h3 class="compact-subtitle font-bold text-center">Technology Solutions</h3>
-                    <div class="space-y-2">
-                        <div class="bg-white border rounded p-2 text-center">
-                            <div class="text-2xl mb-1">📱</div>
-                            <h4 class="text-xs font-semibold mb-1">Digital Diagnosis</h4>
-                            <p class="text-xs">Photo documentation & treatment database</p>
-                            <div class="stat-highlight mt-1">-15min</div>
+                    <h3 class="compact-subtitle text-center">Solutions</h3>
+                    <div class="space-y-1">
+                        <div class="bg-white border rounded p-1 text-center">
+                            <div class="text-lg">📱</div>
+                            <h4 class="compact-text font-semibold">Digital Diagnosis</h4>
+                            <p class="compact-text">Photo docs & database</p>
+                            <div class="stat-highlight">-15min</div>
                         </div>
-                        <div class="bg-white border rounded p-2 text-center">
-                            <div class="text-2xl mb-1">🔔</div>
-                            <h4 class="text-xs font-semibold mb-1">Smart Notifications</h4>
-                            <p class="text-xs">Automated workflow alerts</p>
-                            <div class="stat-highlight mt-1">-8min</div>
+                        <div class="bg-white border rounded p-1 text-center">
+                            <div class="text-lg">🔔</div>
+                            <h4 class="compact-text font-semibold">Smart Alerts</h4>
+                            <p class="compact-text">Automated notifications</p>
+                            <div class="stat-highlight">-8min</div>
                         </div>
-                        <div class="bg-white border rounded p-2 text-center">
-                            <div class="text-2xl mb-1">📈</div>
-                            <h4 class="text-xs font-semibold mb-1">Customer Portal</h4>
-                            <p class="text-xs">Real-time updates & transparency</p>
-                            <div class="stat-highlight mt-1">+25%</div>
+                        <div class="bg-white border rounded p-1 text-center">
+                            <div class="text-lg">📈</div>
+                            <h4 class="compact-text font-semibold">Customer Portal</h4>
+                            <p class="compact-text">Real-time transparency</p>
+                            <div class="stat-highlight">+25%</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Column 4: Impact & ROI -->
+            <div class="space-y-1">
+                <section class="compact-section">
+                    <h3 class="compact-subtitle text-center">Projected Impact</h3>
+                    <div class="metric-card mb-1">
+                        <h4 class="compact-text font-semibold text-center">Enhanced Satisfaction</h4>
+                        <div class="chart-container">
+                            <canvas id="projectedSatisfactionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <h4 class="compact-text font-semibold text-center">Time Optimization</h4>
+                        <div class="chart-container">
+                            <canvas id="efficiencyGainsChart"></canvas>
                         </div>
                     </div>
                 </section>
 
-                <!-- Projected Impact -->
                 <section class="compact-section">
-                    <h3 class="compact-subtitle font-bold text-center">Projected Impact</h3>
-                    <div class="grid grid-cols-1 gap-2">
-                        <div class="metric-card">
-                            <h4 class="text-xs font-semibold text-center mb-1">Enhanced Satisfaction</h4>
-                            <div class="chart-container">
-                                <canvas id="projectedSatisfactionChart"></canvas>
-                            </div>
+                    <h3 class="compact-subtitle text-center">ROI Summary</h3>
+                    <div class="grid grid-cols-2 gap-1 text-center compact-text">
+                        <div class="bg-blue-50 rounded p-1">
+                            <div class="text-sm font-bold text-blue-600">3-6mo</div>
+                            <div class="compact-text">Timeline</div>
                         </div>
-                        <div class="metric-card">
-                            <h4 class="text-xs font-semibold text-center mb-1">Time Optimization</h4>
-                            <div class="chart-container">
-                                <canvas id="efficiencyGainsChart"></canvas>
-                            </div>
+                        <div class="bg-green-50 rounded p-1">
+                            <div class="text-sm font-bold text-green-600">25%</div>
+                            <div class="compact-text">Efficiency</div>
+                        </div>
+                        <div class="bg-purple-50 rounded p-1">
+                            <div class="text-sm font-bold text-purple-600">$50k</div>
+                            <div class="compact-text">Savings</div>
+                        </div>
+                        <div class="bg-orange-50 rounded p-1">
+                            <div class="text-sm font-bold text-orange-600">18mo</div>
+                            <div class="compact-text">Break-even</div>
                         </div>
                     </div>
                 </section>
 
-                <!-- ROI Summary -->
+                <!-- Additional Metrics -->
                 <section class="compact-section">
-                    <h3 class="compact-subtitle font-bold text-center">ROI Summary</h3>
-                    <div class="grid grid-cols-2 gap-2 text-center text-xs">
-                        <div class="bg-blue-50 rounded p-2">
-                            <div class="text-lg font-bold text-blue-600">3-6mo</div>
-                            <div class="text-xs">Implementation</div>
-                        </div>
-                        <div class="bg-green-50 rounded p-2">
-                            <div class="text-lg font-bold text-green-600">25%</div>
-                            <div class="text-xs">Efficiency Gain</div>
-                        </div>
-                        <div class="bg-purple-50 rounded p-2">
-                            <div class="text-lg font-bold text-purple-600">$50k</div>
-                            <div class="text-xs">Annual Savings</div>
-                        </div>
-                        <div class="bg-orange-50 rounded p-2">
-                            <div class="text-lg font-bold text-orange-600">18mo</div>
-                            <div class="text-xs">Break-even</div>
+                    <h3 class="compact-subtitle text-center">Key Metrics</h3>
+                    <div class="bg-white border rounded p-1">
+                        <div class="grid grid-cols-1 gap-1 compact-text text-center">
+                            <div class="border-b pb-1">
+                                <span class="stat-highlight">4.76→4.91</span><br>
+                                <span class="compact-text">Avg Satisfaction</span>
+                            </div>
+                            <div class="border-b pb-1">
+                                <span class="stat-highlight">51→48hrs</span><br>
+                                <span class="compact-text">Standard Turnaround</span>
+                            </div>
+                            <div class="border-b pb-1">
+                                <span class="stat-highlight">78→72hrs</span><br>
+                                <span class="compact-text">Specialty Turnaround</span>
+                            </div>
+                            <div>
+                                <span class="stat-highlight">70%→85%</span><br>
+                                <span class="compact-text">Value-Add Time</span>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
         </div>
 
-        <footer class="text-center mt-2 pt-2 border-t text-xs text-gray-600">
+        <footer class="text-center mt-1 pt-1 border-t compact-text text-gray-600">
             <p>&copy; 2025 5àsec Indonesia Quality Improvement Analysis - Business Class Project</p>
         </footer>
     </div>
