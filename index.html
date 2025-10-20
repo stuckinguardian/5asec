@@ -497,18 +497,16 @@
         </main>
 
         <footer class="text-center mt-16 pt-8 border-t border-gray-300">
-            <div class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-6 px-8 rounded-xl">
-                <h3 class="text-xl font-bold mb-2">Ready to Transform Your Operations?</h3>
-                <p class="opacity-90">Contact our process improvement team to discuss implementation strategies.</p>
-            </div>
-            <p class="text-gray-600 mt-6">&copy; 2025 Quality Improvement Analysis. Strategic consulting for 5àsec Indonesia.</p>
+            <p class="text-gray-600">&copy; 2025 5àsec Indonesia Quality Improvement Analysis - Business Class Project</p>
         </footer>
     </div>
 
     <script>
-        // Enhanced chart configuration
-        Chart.defaults.font.family = 'Inter';
-        Chart.defaults.color = '#1e293b';
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced chart configuration
+            Chart.defaults.font.family = 'Inter';
+            Chart.defaults.color = '#1e293b';
         
         const wrapLabel = (label) => {
             const maxLength = 16;
@@ -764,7 +762,12 @@
         });
 
         // Efficiency Gains Stacked Bar Chart
-        const efficiencyGainsCtx = document.getElementById('efficiencyGainsChart').getContext('2d');
+        const efficiencyGainsCanvas = document.getElementById('efficiencyGainsChart');
+        if (!efficiencyGainsCanvas) {
+            console.error('Canvas element efficiencyGainsChart not found');
+            return;
+        }
+        const efficiencyGainsCtx = efficiencyGainsCanvas.getContext('2d');
         new Chart(efficiencyGainsCtx, {
             type: 'bar',
             data: {
@@ -772,13 +775,11 @@
                 datasets: [{
                     label: 'Value-Add Time (Care/QC)',
                     data: [70, 85],
-                    backgroundColor: chartColors.green,
-                    borderWidth: 0
+                    backgroundColor: '#10b981'
                 }, {
                     label: 'Admin/Wait Time',
                     data: [30, 15],
-                    backgroundColor: chartColors.red,
-                    borderWidth: 0
+                    backgroundColor: '#ef4444'
                 }]
             },
             options: {
@@ -786,26 +787,12 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: { 
-                        position: 'bottom',
-                        labels: {
-                            usePointStyle: true,
-                            padding: 20,
-                            font: { weight: '500' }
-                        }
-                    },
-                    tooltip: { 
-                        callbacks: { 
-                            title: tooltipTitleCallback,
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.y}%`;
-                            }
-                        }
+                        position: 'bottom'
                     }
                 },
                 scales: {
                     x: { 
-                        stacked: true,
-                        grid: { display: false }
+                        stacked: true
                     },
                     y: { 
                         stacked: true, 
@@ -813,10 +800,8 @@
                         max: 100,
                         title: { 
                             display: true, 
-                            text: 'Percentage of Expert Time',
-                            font: { weight: '600' }
+                            text: 'Percentage of Expert Time'
                         },
-                        grid: { color: '#f1f5f9' },
                         ticks: {
                             callback: function(value) {
                                 return value + '%';
@@ -826,6 +811,8 @@
                 }
             }
         });
+        
+        }); // End DOMContentLoaded
     </script>
 </body>
 </html>
