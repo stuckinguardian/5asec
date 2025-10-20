@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5àsec Indonesia: Quality Improvement Analysis - A3 Poster</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        @page {
+            size: A3;
+            margin: 10mm;
+        }
+        
+        @media print {
+            body { 
+                font-size: 10px !important;
+                line-height: 1.2 !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            .no-print { display: none !important; }
+            .chart-container { height: 120px !important; }
+            .kpi-item { padding: 0.5rem !important; }
+            .flow-step, .flow-step-improved, .flow-step-bottleneck { 
+                padding: 0.5rem !important; 
+                min-height: 60px !important;
+            }
+            .process-icon { font-size: 1.2rem !important; margin-bottom: 0.25rem !important; }
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: white;
+            line-height: 1.3;
+            font-size: 11px;
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 140px;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0077B6 0%, #00B4D8 100%);
+        }
+        
+        .flow-step, .flow-step-improved, .flow-step-bottleneck {
+            border: 2px solid #0077B6;
+            background: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .flow-step-bottleneck {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .flow-step-improved {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .flow-arrow {
+            height: 1.5rem;
+            width: 2px;
+            background: #0077B6;
+            margin: 0.5rem auto;
+            position: relative;
+        }
+        
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            left: -4px;
+            bottom: -1px;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 8px solid #0077B6;
+        }
+        
+        .metric-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .kpi-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .kpi-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #0077B6;
+            display: block;
+            line-height: 1;
+        }
+        
+        .kpi-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+        
+        .stat-highlight {
+            background: #0077B6;
+            color: white;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            font-size: 0.7rem;
+        }
+        
+        .process-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .text-deep-navy { color: #1e293b; }
+        
+        /* Compact spacing */
+        .compact-section { margin-bottom: 1.5rem; }
+        .compact-grid { gap: 0.75rem; }
+        .compact-text { font-size: 0.8rem; line-height: 1.2; }
+        .compact-title { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .compact-subtitle { font-size: 1rem; margin-bottom: 0.75rem; }
+    </style>
+</head>
+<body class="text-deep-navy p-2">
+    <div class="max-w-none">
+        <!-- Compact Header -->
+        <header class="text-center mb-3">
+            <div class="hero-gradient text-white py-3 px-4 rounded-lg mb-2">
+                <h1 class="text-2xl font-black mb-1">5àsec Indonesia: Engineering Excellence</h1>
+                <p class="text-sm opacity-90">Quality improvement analysis through digital innovation and workflow optimization</p>
+            </div>
+            
+            <!-- Compact KPIs -->
+            <div class="grid grid-cols-4 gap-2 mb-2">
+                <div class="kpi-item">
+                    <span class="kpi-value">4.7</span>
+                    <div class="kpi-label">Avg Satisfaction</div>
+                </div>
+                <div class="kpi-item">
+                    <span class="kpi-value">25min</span>
+                    <div class="kpi-label">Time Saved</div>
+                </div>
+                <div class="kpi-item">
+                    <span class="kpi-value">15%</span>
+                    <div class="kpi-label">Efficiency Gain</div>
+                </div>
+                <div class="kpi-item">
+                    <span class="kpi-value">98%</span>
+                    <div class="kpi-label">Quality Rate</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-3 gap-3">
+            
+            <!-- Left Column -->
+            <div class="space-y-3">
+                <!-- Current Process -->
+                <section class="compact-section">
+                    <h2 class="compact-title font-bold text-center">Current Process</h2>
+                    <div class="flex flex-col items-center space-y-1">
+                        <div class="flow-step-bottleneck w-full text-xs">
+                            <div class="process-icon">🔬</div>
+                            <div class="font-semibold">Diagnosis</div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step w-full text-xs">
+                            <div class="process-icon">🧪</div>
+                            <div class="font-semibold">Stain Removal</div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step w-full text-xs">
+                            <div class="process-icon">🧼</div>
+                            <div class="font-semibold">Cleaning</div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step w-full text-xs">
+                            <div class="process-icon">👔</div>
+                            <div class="font-semibold">Finishing</div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step-bottleneck w-full text-xs">
+                            <div class="process-icon">✅</div>
+                            <div class="font-semibold">Quality Control</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Performance Charts -->
+                <section class="compact-section">
+                    <h3 class="compact-subtitle font-bold text-center">Performance Analysis</h3>
+                    <div class="metric-card mb-2">
+                        <h4 class="text-xs font-semibold text-center mb-1">Customer Satisfaction</h4>
+                        <div class="chart-container">
+                            <canvas id="satisfactionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <h4 class="text-xs font-semibold text-center mb-1">Service Turnaround</h4>
+                        <div class="chart-container">
+                            <canvas id="turnaroundChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Middle Column -->
+            <div class="space-y-3">
+                <!-- Process Map Table -->
+                <section class="compact-section">
+                    <h2 class="compact-title font-bold text-center">Process Map Components</h2>
+                    <div class="bg-white rounded border overflow-hidden">
+                        <table class="w-full text-xs">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-2 py-1 text-left font-semibold">Steps</th>
+                                    <th class="px-2 py-1 text-left font-semibold">Inputs</th>
+                                    <th class="px-2 py-1 text-left font-semibold">Outputs</th>
+                                    <th class="px-2 py-1 text-left font-semibold">Feedback</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-2 py-1">🔬 Diagnosis</td>
+                                    <td class="px-2 py-1">• Dirty clothes<br>• Expert staff<br>• Equipment</td>
+                                    <td class="px-2 py-1">• Treatment plan<br>• Time estimate<br>• Instructions</td>
+                                    <td class="px-2 py-1">• Customer approval<br>• Performance tracking</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-2 py-1">🧪 Stain Removal</td>
+                                    <td class="px-2 py-1">• Diagnosed items<br>• Chemicals<br>• Technicians</td>
+                                    <td class="px-2 py-1">• Pre-treated items<br>• Documentation<br>• Quality check</td>
+                                    <td class="px-2 py-1">• Success monitoring<br>• Skill assessment</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-2 py-1">🧼 Cleaning</td>
+                                    <td class="px-2 py-1">• Pre-treated items<br>• Machines<br>• Detergents</td>
+                                    <td class="px-2 py-1">• Clean garments<br>• Cycle reports<br>• Quality results</td>
+                                    <td class="px-2 py-1">• Effectiveness monitoring<br>• Machine maintenance</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-2 py-1">👔 Finishing</td>
+                                    <td class="px-2 py-1">• Clean garments<br>• Press equipment<br>• Skilled staff</td>
+                                    <td class="px-2 py-1">• Finished items<br>• Packaging<br>• Quality reports</td>
+                                    <td class="px-2 py-1">• Quality assessment<br>• Staff evaluation</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-2 py-1">✅ Quality Control</td>
+                                    <td class="px-2 py-1">• Finished items<br>• QC checklist<br>• Inspector</td>
+                                    <td class="px-2 py-1">• Approved garments<br>• Receipt<br>• Survey</td>
+                                    <td class="px-2 py-1">• Customer complaints<br>• Quality metrics</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Bottleneck Analysis -->
+                <section class="compact-section">
+                    <h3 class="compact-subtitle font-bold text-center">Process Bottlenecks</h3>
+                    <div class="metric-card">
+                        <div class="chart-container">
+                            <canvas id="delayChart"></canvas>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 mt-2 text-center text-xs">
+                            <div><span class="stat-highlight">50min</span><br>Daily Time Lost</div>
+                            <div><span class="stat-highlight">3</span><br>Bottleneck Areas</div>
+                            <div><span class="stat-highlight">80%</span><br>Admin vs Care</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-3">
+                <!-- Improved Process -->
+                <section class="compact-section">
+                    <h2 class="compact-title font-bold text-center">Improved Process</h2>
+                    <div class="flex flex-col items-center space-y-1">
+                        <div class="flow-step-improved w-full text-xs">
+                            <div class="process-icon">📱</div>
+                            <div class="font-semibold">Digital Diagnosis</div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step w-full text-xs">
+                            <div class="process-icon">🧪</div>
+                            <div class="font-semibold">Stain Removal</div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step w-full text-xs">
+                            <div class="process-icon">🧼</div>
+                            <div class="font-semibold">Cleaning</div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step w-full text-xs">
+                            <div class="process-icon">👔</div>
+                            <div class="font-semibold">Finishing</div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step-improved w-full text-xs">
+                            <div class="process-icon">✅</div>
+                            <div class="font-semibold">Smart QC</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Solutions -->
+                <section class="compact-section">
+                    <h3 class="compact-subtitle font-bold text-center">Technology Solutions</h3>
+                    <div class="space-y-2">
+                        <div class="bg-white border rounded p-2 text-center">
+                            <div class="text-2xl mb-1">📱</div>
+                            <h4 class="text-xs font-semibold mb-1">Digital Diagnosis</h4>
+                            <p class="text-xs">Photo documentation & treatment database</p>
+                            <div class="stat-highlight mt-1">-15min</div>
+                        </div>
+                        <div class="bg-white border rounded p-2 text-center">
+                            <div class="text-2xl mb-1">🔔</div>
+                            <h4 class="text-xs font-semibold mb-1">Smart Notifications</h4>
+                            <p class="text-xs">Automated workflow alerts</p>
+                            <div class="stat-highlight mt-1">-8min</div>
+                        </div>
+                        <div class="bg-white border rounded p-2 text-center">
+                            <div class="text-2xl mb-1">📈</div>
+                            <h4 class="text-xs font-semibold mb-1">Customer Portal</h4>
+                            <p class="text-xs">Real-time updates & transparency</p>
+                            <div class="stat-highlight mt-1">+25%</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Projected Impact -->
+                <section class="compact-section">
+                    <h3 class="compact-subtitle font-bold text-center">Projected Impact</h3>
+                    <div class="grid grid-cols-1 gap-2">
+                        <div class="metric-card">
+                            <h4 class="text-xs font-semibold text-center mb-1">Enhanced Satisfaction</h4>
+                            <div class="chart-container">
+                                <canvas id="projectedSatisfactionChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <h4 class="text-xs font-semibold text-center mb-1">Time Optimization</h4>
+                            <div class="chart-container">
+                                <canvas id="efficiencyGainsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ROI Summary -->
+                <section class="compact-section">
+                    <h3 class="compact-subtitle font-bold text-center">ROI Summary</h3>
+                    <div class="grid grid-cols-2 gap-2 text-center text-xs">
+                        <div class="bg-blue-50 rounded p-2">
+                            <div class="text-lg font-bold text-blue-600">3-6mo</div>
+                            <div class="text-xs">Implementation</div>
+                        </div>
+                        <div class="bg-green-50 rounded p-2">
+                            <div class="text-lg font-bold text-green-600">25%</div>
+                            <div class="text-xs">Efficiency Gain</div>
+                        </div>
+                        <div class="bg-purple-50 rounded p-2">
+                            <div class="text-lg font-bold text-purple-600">$50k</div>
+                            <div class="text-xs">Annual Savings</div>
+                        </div>
+                        <div class="bg-orange-50 rounded p-2">
+                            <div class="text-lg font-bold text-orange-600">18mo</div>
+                            <div class="text-xs">Break-even</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <footer class="text-center mt-2 pt-2 border-t text-xs text-gray-600">
+            <p>&copy; 2025 5àsec Indonesia Quality Improvement Analysis - Business Class Project</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Chart.defaults.font.family = 'Inter';
+            Chart.defaults.font.size = 8;
+            Chart.defaults.color = '#1e293b';
+
+            const chartColors = {
+                corpBlue: '#0077B6',
+                skyBlue: '#00B4D8',
+                lightBlue: '#ADE8F4',
+                powderBlue: '#90E0EF',
+                navy: '#1e293b',
+                red: '#ef4444',
+                green: '#10b981',
+                lightGray: '#e2e8f0'
+            };
+
+            // Satisfaction Chart
+            const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+            new Chart(satisfactionCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Daily', 'Household', 'Leather', 'Wedding', 'Delicate'],
+                    datasets: [{
+                        data: [4.8, 4.7, 4.9, 4.9, 4.5],
+                        backgroundColor: 'rgba(0, 180, 216, 0.2)',
+                        borderColor: chartColors.skyBlue,
+                        pointBackgroundColor: chartColors.skyBlue,
+                        borderWidth: 2,
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        r: {
+                            suggestedMin: 3.5,
+                            suggestedMax: 5,
+                            pointLabels: { font: { size: 8 } },
+                            ticks: { font: { size: 7 } }
+                        }
+                    }
+                }
+            });
+
+            // Turnaround Chart
+            const turnaroundCtx = document.getElementById('turnaroundChart').getContext('2d');
+            new Chart(turnaroundCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Standard', 'Specialty'],
+                    datasets: [{
+                        label: 'Target',
+                        data: [48, 72],
+                        backgroundColor: chartColors.lightGray
+                    }, {
+                        label: 'Actual',
+                        data: [51, 78],
+                        backgroundColor: chartColors.corpBlue
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { font: { size: 7 } } },
+                        x: { ticks: { font: { size: 7 } } }
+                    }
+                }
+            });
+
+            // Delay Chart
+            const delayCtx = document.getElementById('delayChart').getContext('2d');
+            new Chart(delayCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Documentation', 'Handoff', 'Consultation'],
+                    datasets: [{
+                        data: [25, 15, 10],
+                        backgroundColor: [chartColors.corpBlue, chartColors.skyBlue, chartColors.lightBlue]
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, ticks: { font: { size: 7 } } },
+                        y: { ticks: { font: { size: 7 } } }
+                    }
+                }
+            });
+
+            // Projected Satisfaction Chart
+            const projectedCtx = document.getElementById('projectedSatisfactionChart').getContext('2d');
+            new Chart(projectedCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Daily', 'Household', 'Leather', 'Wedding', 'Delicate'],
+                    datasets: [{
+                        label: 'Current',
+                        data: [4.8, 4.7, 4.9, 4.9, 4.5],
+                        backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                        borderColor: '#94a3b8',
+                        borderWidth: 1,
+                        pointRadius: 2
+                    }, {
+                        label: 'Projected',
+                        data: [4.9, 4.8, 5.0, 5.0, 4.9],
+                        backgroundColor: 'rgba(0, 180, 216, 0.2)',
+                        borderColor: chartColors.skyBlue,
+                        borderWidth: 2,
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        r: {
+                            suggestedMin: 3.5,
+                            suggestedMax: 5,
+                            pointLabels: { font: { size: 8 } },
+                            ticks: { font: { size: 7 } }
+                        }
+                    }
+                }
+            });
+
+            // Efficiency Chart
+            const efficiencyCtx = document.getElementById('efficiencyGainsChart').getContext('2d');
+            new Chart(efficiencyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Before', 'After'],
+                    datasets: [{
+                        label: 'Value-Add',
+                        data: [70, 85],
+                        backgroundColor: chartColors.green
+                    }, {
+                        label: 'Admin',
+                        data: [30, 15],
+                        backgroundColor: chartColors.red
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { stacked: true, ticks: { font: { size: 7 } } },
+                        y: { 
+                            stacked: true, 
+                            beginAtZero: true, 
+                            max: 100,
+                            ticks: { 
+                                font: { size: 7 },
+                                callback: function(value) { return value + '%'; }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
