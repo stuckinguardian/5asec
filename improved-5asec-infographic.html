@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5àsec Indonesia: Engineering Excellence | Quality Improvement Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            line-height: 1.6;
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0077B6 0%, #00B4D8 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+        }
+        
+        .flow-step, .flow-step-improved, .flow-step-bottleneck {
+            border: 3px solid #0077B6;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .flow-step:hover, .flow-step-improved:hover {
+            transform: scale(1.02);
+        }
+        
+        .flow-step-bottleneck {
+            border-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            animation: pulse-red 2s infinite;
+        }
+        
+        .flow-step-improved {
+            border-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+        
+        .flow-arrow {
+            position: relative;
+            height: 3rem;
+            width: 3px;
+            background: linear-gradient(to bottom, #0077B6, #00B4D8);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            left: -8px;
+            bottom: -2px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid #00B4D8;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        
+        .improvement-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-top: 4px solid #00B4D8;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+            height: 100%;
+        }
+        
+        .stat-highlight {
+            background: linear-gradient(135deg, #0077B6 0%, #00B4D8 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            display: inline-block;
+            margin: 0.25rem;
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #00B4D8, transparent);
+            margin: 3rem 0;
+        }
+        
+        @keyframes pulse-red {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.2), 0 4px 6px -2px rgba(239, 68, 68, 0.1);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 20px 25px -5px rgba(239, 68, 68, 0.3), 0 10px 10px -5px rgba(239, 68, 68, 0.2);
+            }
+        }
+        
+        .text-deep-navy { color: #1e293b; }
+        .bg-corporate-blue { background-color: #0077B6; }
+        .bg-sky-blue { background-color: #00B4D8; }
+        
+        .process-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .kpi-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #0077B6;
+            display: block;
+        }
+        
+        .kpi-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="text-deep-navy">
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <!-- Enhanced Header -->
+        <header class="text-center mb-16">
+            <div class="hero-gradient text-white py-8 px-6 rounded-2xl mb-6 shadow-2xl">
+                <h1 class="text-4xl md:text-6xl font-black mb-4">5àsec Indonesia</h1>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">Engineering Excellence Through Digital Innovation</h2>
+                <p class="text-lg md:text-xl max-w-4xl mx-auto opacity-90">
+                    Comprehensive quality improvement analysis focusing on optimizing premium textile care processes 
+                    through strategic technology integration and workflow enhancement.
+                </p>
+            </div>
+            
+            <!-- Key Metrics Overview -->
+            <div class="kpi-grid">
+                <div class="kpi-item card-hover">
+                    <span class="kpi-value">4.7</span>
+                    <div class="kpi-label">Average Satisfaction Score</div>
+                </div>
+                <div class="kpi-item card-hover">
+                    <span class="kpi-value">25min</span>
+                    <div class="kpi-label">Time Saved Per Garment</div>
+                </div>
+                <div class="kpi-item card-hover">
+                    <span class="kpi-value">15%</span>
+                    <div class="kpi-label">Efficiency Improvement</div>
+                </div>
+                <div class="kpi-item card-hover">
+                    <span class="kpi-value">98%</span>
+                    <div class="kpi-label">Quality Consistency</div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Current Workflow Section -->
+            <section id="current-workflow" class="mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Current 5-Stage Expert Process</h2>
+                <p class="text-center max-w-3xl mx-auto mb-12 text-lg">
+                    5àsec's reputation is built on meticulous attention to detail. This workflow represents their current 
+                    premium service process, highlighting areas where digital enhancement can amplify existing expertise.
+                </p>
+                
+                <div class="flex flex-col items-center max-w-md mx-auto">
+                    <div class="flow-step-bottleneck w-full">
+                        <div class="process-icon">🔬</div>
+                        <h3 class="font-bold text-lg">Diagnosis & Expert Consultation</h3>
+                        <p class="text-sm mt-2 opacity-75">Manual documentation creates delays</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step w-full">
+                        <div class="process-icon">🧪</div>
+                        <h3 class="font-bold text-lg">Pre-Wash Stain Removal</h3>
+                        <p class="text-sm mt-2 opacity-75">Specialized treatment application</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step w-full">
+                        <div class="process-icon">🧼</div>
+                        <h3 class="font-bold text-lg">Cleaning Process</h3>
+                        <p class="text-sm mt-2 opacity-75">Washing / Aqua-Cleaning / Dry Cleaning</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step w-full">
+                        <div class="process-icon">👔</div>
+                        <h3 class="font-bold text-lg">Professional Finishing</h3>
+                        <p class="text-sm mt-2 opacity-75">Expert ironing and garment preparation</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step-bottleneck w-full">
+                        <div class="process-icon">✅</div>
+                        <h3 class="font-bold text-lg">Quality Control & Assembly</h3>
+                        <p class="text-sm mt-2 opacity-75">Communication delays impact efficiency</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Performance Analysis -->
+            <section id="performance-snapshot" class="mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Performance Analysis</h2>
+                <p class="text-center max-w-3xl mx-auto mb-12 text-lg">
+                    Detailed analysis of current service metrics reveals high customer satisfaction with opportunities 
+                    for targeted improvements in specialized services and process efficiency.
+                </p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div class="metric-card card-hover">
+                        <h3 class="text-xl font-bold text-center mb-4">Customer Satisfaction by Service Type</h3>
+                        <p class="text-center text-sm mb-6 text-gray-600">
+                            Satisfaction scores across service categories show excellence in most areas, with 
+                            <span class="stat-highlight">delicate fabrics</span> presenting improvement opportunities.
+                        </p>
+                        <div class="chart-container">
+                            <canvas id="satisfactionChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <div class="stat-highlight">4.76</div>
+                            <span class="text-sm">Overall Average Score</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card card-hover">
+                        <h3 class="text-xl font-bold text-center mb-4">Service Turnaround Performance</h3>
+                        <p class="text-center text-sm mb-6 text-gray-600">
+                            Comparison of target vs. actual delivery times shows consistent quality delivery with 
+                            <span class="stat-highlight">minor delays</span> in complex specialty items.
+                        </p>
+                        <div class="chart-container">
+                            <canvas id="turnaroundChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <div class="stat-highlight">6.25%</div>
+                            <span class="text-sm">Average Delay Rate</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottleneck Analysis -->
+            <section id="bottlenecks" class="mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Process Bottleneck Analysis</h2>
+                <p class="text-center max-w-3xl mx-auto mb-12 text-lg">
+                    In-depth analysis reveals that time inefficiencies occur primarily in manual documentation and 
+                    communication handoffs, not in the core expertise-driven activities.
+                </p>
+                
+                <div class="metric-card card-hover">
+                    <h3 class="text-xl font-bold text-center mb-6">Time Lost Per Garment (Minutes)</h3>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="delayChart"></canvas>
+                    </div>
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="stat-highlight">50min</div>
+                            <div class="text-sm">Total Daily Time Lost</div>
+                        </div>
+                        <div>
+                            <div class="stat-highlight">3</div>
+                            <div class="text-sm">Main Bottleneck Areas</div>
+                        </div>
+                        <div>
+                            <div class="stat-highlight">80%</div>
+                            <div class="text-sm">Administrative vs. Care Time</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Strategic Improvements -->
+            <section id="improvements" class="mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Strategic Technology Solutions</h2>
+                <p class="text-center max-w-3xl mx-auto mb-12 text-lg">
+                    Technology-driven solutions designed to enhance, not replace, expert craftsmanship. 
+                    These improvements focus on eliminating administrative friction while preserving the premium service experience.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="improvement-card card-hover text-center">
+                        <div class="text-5xl mb-6">📱</div>
+                        <h3 class="text-xl font-bold mb-4">Digital Diagnosis System</h3>
+                        <p class="mb-4">
+                            Tablet-based photo documentation with integrated treatment database. 
+                            Eliminates paperwork, standardizes processes, and creates digital records.
+                        </p>
+                        <div class="mt-6">
+                            <div class="stat-highlight">-15min</div>
+                            <div class="text-sm">Documentation Time Saved</div>
+                        </div>
+                    </div>
+                    
+                    <div class="improvement-card card-hover text-center">
+                        <div class="text-5xl mb-6">🔔</div>
+                        <h3 class="text-xl font-bold mb-4">Smart Workflow Notifications</h3>
+                        <p class="mb-4">
+                            Automated stage completion alerts trigger immediate next-step notifications, 
+                            eliminating communication delays and ensuring seamless handoffs.
+                        </p>
+                        <div class="mt-6">
+                            <div class="stat-highlight">-8min</div>
+                            <div class="text-sm">Handoff Delay Reduction</div>
+                        </div>
+                    </div>
+                    
+                    <div class="improvement-card card-hover text-center">
+                        <div class="text-5xl mb-6">📈</div>
+                        <h3 class="text-xl font-bold mb-4">Customer Transparency Portal</h3>
+                        <p class="mb-4">
+                            Real-time process updates and photo logs shared via customer app, 
+                            building trust and enabling digital approval workflows.
+                        </p>
+                        <div class="mt-6">
+                            <div class="stat-highlight">+25%</div>
+                            <div class="text-sm">Customer Confidence Boost</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Optimized Workflow -->
+            <section id="optimized-workflow" class="mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Enhanced 'Smart Care' Workflow</h2>
+                <p class="text-center max-w-3xl mx-auto mb-12 text-lg">
+                    The optimized process maintains all quality touchpoints while integrating digital tools 
+                    for enhanced efficiency, transparency, and consistency.
+                </p>
+                
+                <div class="flex flex-col items-center max-w-md mx-auto">
+                    <div class="flow-step-improved w-full">
+                        <div class="process-icon">📱</div>
+                        <h3 class="font-bold text-lg">Digital Diagnosis & Photo Log</h3>
+                        <p class="text-sm mt-2 opacity-75">Streamlined documentation with instant treatment selection</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step w-full">
+                        <div class="process-icon">🧪</div>
+                        <h3 class="font-bold text-lg">Pre-Wash Stain Removal</h3>
+                        <p class="text-sm mt-2 opacity-75">Guided by digital treatment protocols</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step w-full">
+                        <div class="process-icon">🧼</div>
+                        <h3 class="font-bold text-lg">Cleaning Process</h3>
+                        <p class="text-sm mt-2 opacity-75">Automated progress tracking</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step w-full">
+                        <div class="process-icon">👔</div>
+                        <h3 class="font-bold text-lg">Professional Finishing</h3>
+                        <p class="text-sm mt-2 opacity-75">Smart completion notifications</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step-improved w-full">
+                        <div class="process-icon">✅</div>
+                        <h3 class="font-bold text-lg">Instant QC & Digital Sign-off</h3>
+                        <p class="text-sm mt-2 opacity-75">Automated notifications with digital approval</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Projected Impact -->
+            <section id="projected-impact" class="mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Projected Business Impact</h2>
+                <p class="text-center max-w-3xl mx-auto mb-12 text-lg">
+                    Implementation of these improvements is projected to deliver measurable enhancements 
+                    in customer satisfaction, operational efficiency, and service consistency.
+                </p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div class="metric-card card-hover">
+                        <h3 class="text-xl font-bold text-center mb-4">Enhanced Customer Confidence</h3>
+                        <p class="text-center text-sm mb-6 text-gray-600">
+                            Projected satisfaction improvements across all service categories, with significant 
+                            gains in <span class="stat-highlight">delicate fabric</span> handling confidence.
+                        </p>
+                        <div class="chart-container">
+                            <canvas id="projectedSatisfactionChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <div class="stat-highlight">+0.15</div>
+                            <span class="text-sm">Average Score Improvement</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card card-hover">
+                        <h3 class="text-xl font-bold text-center mb-4">Expert Time Optimization</h3>
+                        <p class="text-center text-sm mb-6 text-gray-600">
+                            Reallocation of expert time from administrative tasks to 
+                            <span class="stat-highlight">value-added care</span> activities and quality control.
+                        </p>
+                        <div class="chart-container">
+                            <canvas id="efficiencyGainsChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <div class="stat-highlight">+15%</div>
+                            <span class="text-sm">More Time on Quality Care</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ROI Summary -->
+                <div class="mt-12 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold text-center mb-6">Implementation ROI Summary</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+                        <div>
+                            <div class="text-3xl font-bold text-blue-600">3-6mo</div>
+                            <div class="text-sm text-gray-600">Implementation Timeline</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-blue-600">25%</div>
+                            <div class="text-sm text-gray-600">Process Efficiency Gain</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-blue-600">$50k</div>
+                            <div class="text-sm text-gray-600">Annual Labor Savings</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-blue-600">18mo</div>
+                            <div class="text-sm text-gray-600">Break-even Point</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-16 pt-8 border-t border-gray-300">
+            <div class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-6 px-8 rounded-xl">
+                <h3 class="text-xl font-bold mb-2">Ready to Transform Your Operations?</h3>
+                <p class="opacity-90">Contact our process improvement team to discuss implementation strategies.</p>
+            </div>
+            <p class="text-gray-600 mt-6">&copy; 2025 Quality Improvement Analysis. Strategic consulting for 5àsec Indonesia.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Enhanced chart configuration
+        Chart.register(ChartDataLabels);
+        
+        const wrapLabel = (label) => {
+            const maxLength = 16;
+            if (label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        };
+
+        const chartColors = {
+            corpBlue: '#0077B6',
+            skyBlue: '#00B4D8',
+            lightBlue: '#ADE8F4',
+            powderBlue: '#90E0EF',
+            navy: '#1e293b',
+            red: '#ef4444',
+            green: '#10b981',
+            lightGray: '#e2e8f0',
+            gradient1: 'rgba(0, 119, 182, 0.8)',
+            gradient2: 'rgba(0, 180, 216, 0.8)'
+        };
+
+        // Customer Satisfaction Radar Chart
+        const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+        new Chart(satisfactionCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Daily Wear', 'Household Items', 'Leather/Suede', 'Wedding Gowns', wrapLabel('Delicate Fabrics')],
+                datasets: [{
+                    label: 'Current Satisfaction',
+                    data: [4.8, 4.7, 4.9, 4.9, 4.5],
+                    backgroundColor: 'rgba(0, 180, 216, 0.2)',
+                    borderColor: chartColors.skyBlue,
+                    pointBackgroundColor: chartColors.skyBlue,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: chartColors.skyBlue,
+                    borderWidth: 3,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { 
+                        callbacks: { 
+                            title: tooltipTitleCallback,
+                            label: function(context) {
+                                return `Satisfaction: ${context.parsed.r}/5.0`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#cbd5e1' },
+                        grid: { color: '#cbd5e1' },
+                        pointLabels: { 
+                            font: { size: 12, weight: '500' },
+                            color: chartColors.navy
+                        },
+                        suggestedMin: 3.5,
+                        suggestedMax: 5,
+                        ticks: {
+                            stepSize: 0.5,
+                            color: chartColors.navy
+                        }
+                    }
+                }
+            }
+        });
+
+        // Turnaround Time Bar Chart
+        const turnaroundCtx = document.getElementById('turnaroundChart').getContext('2d');
+        new Chart(turnaroundCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Standard Garment', 'Specialty Item'],
+                datasets: [{
+                    label: 'Target Time (Hours)',
+                    data: [48, 72],
+                    backgroundColor: chartColors.lightGray,
+                    borderColor: '#94a3b8',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }, {
+                    label: 'Actual Time (Hours)',
+                    data: [51, 78],
+                    backgroundColor: [chartColors.gradient1, chartColors.gradient2],
+                    borderWidth: 0,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: { weight: '500' }
+                        }
+                    },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                },
+                scales: { 
+                    y: { 
+                        beginAtZero: true, 
+                        title: { 
+                            display: true, 
+                            text: 'Hours',
+                            font: { weight: '600' }
+                        },
+                        grid: { color: '#f1f5f9' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Process Delays Horizontal Bar Chart
+        const delayCtx = document.getElementById('delayChart').getContext('2d');
+        new Chart(delayCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    wrapLabel('Manual Diagnosis & Documentation'), 
+                    wrapLabel('QC Handoff & Communication'), 
+                    wrapLabel('Customer Consultation Delays')
+                ],
+                datasets: [{
+                    label: 'Average Delay (Minutes)',
+                    data: [25, 15, 10],
+                    backgroundColor: [chartColors.corpBlue, chartColors.skyBlue, chartColors.lightBlue],
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'right',
+                        color: 'white',
+                        font: { weight: 'bold' },
+                        formatter: (value) => `${value}min`
+                    }
+                },
+                scales: { 
+                    x: { 
+                        beginAtZero: true, 
+                        title: { 
+                            display: true, 
+                            text: 'Minutes Lost Per Garment',
+                            font: { weight: '600' }
+                        },
+                        grid: { color: '#f1f5f9' }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Projected Satisfaction Radar Chart
+        const projectedSatisfactionCtx = document.getElementById('projectedSatisfactionChart').getContext('2d');
+        new Chart(projectedSatisfactionCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Daily Wear', 'Household Items', 'Leather/Suede', 'Wedding Gowns', wrapLabel('Delicate Fabrics')],
+                datasets: [{
+                    label: 'Current',
+                    data: [4.8, 4.7, 4.9, 4.9, 4.5],
+                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                    borderColor: '#94a3b8',
+                    pointBackgroundColor: '#94a3b8',
+                    pointBorderColor: '#fff',
+                    borderWidth: 2,
+                    pointRadius: 4
+                }, {
+                    label: 'Projected',
+                    data: [4.9, 4.8, 5.0, 5.0, 4.9],
+                    backgroundColor: 'rgba(0, 180, 216, 0.2)',
+                    borderColor: chartColors.skyBlue,
+                    pointBackgroundColor: chartColors.skyBlue,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: chartColors.skyBlue,
+                    borderWidth: 3,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: { weight: '500' }
+                        }
+                    },
+                    tooltip: { 
+                        callbacks: { 
+                            title: tooltipTitleCallback,
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.parsed.r}/5.0`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#cbd5e1' },
+                        grid: { color: '#cbd5e1' },
+                        pointLabels: { 
+                            font: { size: 12, weight: '500' },
+                            color: chartColors.navy
+                        },
+                        suggestedMin: 3.5,
+                        suggestedMax: 5,
+                        ticks: {
+                            stepSize: 0.5,
+                            color: chartColors.navy
+                        }
+                    }
+                }
+            }
+        });
+
+        // Efficiency Gains Stacked Bar Chart
+        const efficiencyGainsCtx = document.getElementById('efficiencyGainsChart').getContext('2d');
+        new Chart(efficiencyGainsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Before Improvement', 'After Improvement'],
+                datasets: [{
+                    label: 'Value-Add Time (Care/QC)',
+                    data: [70, 85],
+                    backgroundColor: chartColors.green,
+                    borderRadius: { topLeft: 8, topRight: 8 }
+                }, {
+                    label: 'Admin/Wait Time',
+                    data: [30, 15],
+                    backgroundColor: chartColors.red,
+                    borderRadius: { bottomLeft: 8, bottomRight: 8 }
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: { weight: '500' }
+                        }
+                    },
+                    tooltip: { 
+                        callbacks: { 
+                            title: tooltipTitleCallback,
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.parsed.y}%`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        display: function(context) {
+                            return context.parsed.y > 10;
+                        },
+                        color: 'white',
+                        font: { weight: 'bold' },
+                        formatter: (value) => `${value}%`
+                    }
+                },
+                scales: {
+                    x: { 
+                        stacked: true,
+                        grid: { display: false }
+                    },
+                    y: { 
+                        stacked: true, 
+                        beginAtZero: true, 
+                        max: 100,
+                        title: { 
+                            display: true, 
+                            text: 'Percentage of Expert Time',
+                            font: { weight: '600' }
+                        },
+                        grid: { color: '#f1f5f9' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
